@@ -54,10 +54,13 @@ const handleMessageEvent = (ev) => {
   });
 };
 const handleFollowEvent = (ev) => {
-  const text = ev.message.text;
-  client.replyMessage(ev.replyToken, {
-    type: "text",
-    text: "友だち追加ありがとうございます！",
-  });
+  client.getProfile(ev.source.userId)
+      .then((profile) => {
+        const name = profile.displayName;
+        client.replyMessage(ev.replyToken, {
+          type: "text",
+          text: `${name}さん友だち追加ありがとうございます！`,
+        });
+      });
 };
 exports.app = functions.https.onRequest(app);
